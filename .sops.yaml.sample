@@ -1,0 +1,3 @@
+creation_rules:
+  - gcp_kms: your_GCP_KMS_path
+    encrypted_regex: '(?i)^(.*PASSWORD.*|.*KEY.*|.*TOKEN.*)$'
