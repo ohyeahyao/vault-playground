@@ -66,7 +66,24 @@ deploy_client_end(){
 
 # Vault Configuration using Terraform
 update_vault_configuartion(){
-  vault_server_ip=$(kubectl get svc "$VAULT_RELEASE_NAME-ui" -n $VAULT_RELEASE_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  vault_server_ip=""
+  retry_count=10   # Total 10 attempts
+  retry_interval=3 # Retry every 3 seconds
+
+  for ((i=0; i<$retry_count; i++)); do
+      vault_server_ip=$(kubectl get svc "$VAULT_RELEASE_NAME-ui" -n $VAULT_RELEASE_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+      if [ -n "$vault_server_ip" ]; then
+          echo "Vault IP: $vault_server_ip"
+          break
+      elif [ $i -eq $((retry_count-1)) ]; then
+          echo "Unable to retrieve Vault service IP, exceeded maximum retry attempts."
+          exit 1
+      else
+          echo "Waiting for Vault service IP..."
+          sleep $retry_interval
+      fi
+  done
+  
   export VAULT_ADDR=http://${vault_server_ip}:8200
   export VAULT_TOKEN=root # default
 
