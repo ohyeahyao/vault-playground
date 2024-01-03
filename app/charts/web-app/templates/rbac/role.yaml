@@ -1,0 +1,28 @@
+
+{{- $secretName :=  (include "web-app.secretName" .) }}
+{{- $roleName := printf "%s-role" (include "web-app.fullname" .) }}
+{{- $roleBindingName := printf "%s-rolebinding" (include "web-app.fullname" .) }}
+{{- $serviceAccountName := (include "web-app.serviceAccountName" .) }}
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ $roleName }}"
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["{{ $secretName }}"]
+  verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ $roleBindingName }}"
+subjects:
+- kind: ServiceAccount
+  name: "{{ $serviceAccountName }}"
+roleRef:
+  kind: Role
+  name: "{{ $roleName }}"
+  apiGroup: rbac.authorization.k8s.io
