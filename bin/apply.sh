@@ -14,13 +14,13 @@ deploy_vault_server() {
   if [ $? -eq 0 ]; then
     DIFF_OUTPUT=$(helm diff upgrade $VAULT_RELEASE_NAME $VAULT_CHART_PATH -n $VAULT_RELEASE_NAMESPACE -f $VAULT_VALUES_FILE_PATH)
     if [ -n "$DIFF_OUTPUT" ]; then
-        echo "vault upgrading..."
+        echo "[Helm] Vault Server upgrading..."
         helm upgrade --install $VAULT_RELEASE_NAME $VAULT_CHART_PATH -n $VAULT_RELEASE_NAMESPACE -f $VAULT_VALUES_FILE_PATH
     else
-        echo "Vault server helm nothing be changed."
+        echo "[Helm] Vault Server nothing be changed."
     fi
   else
-    echo "vault installing..."
+    echo "[Helm] Vault Server installing..."
     helm install $VAULT_RELEASE_NAME $VAULT_CHART_PATH -n $VAULT_RELEASE_NAMESPACE --create-namespace -f $VAULT_VALUES_FILE_PATH
   fi
 }
@@ -36,13 +36,13 @@ depoly_vso(){
   if [ $? -eq 0 ]; then
     DIFF_OUTPUT=$(helm diff upgrade $OPERATOR_RELEASE_NAME $OPERATOR_CHART_PATH -n $OPERATOR_RELEASE_NAMESPACE -f $OPERATOR_VALUES_FILE_PATH)
     if [ -n "$DIFF_OUTPUT" ]; then
-        echo "vault secret operator upgrading..."
+        echo "[Helm] Vault Secret Operator upgrading..."
         helm upgrade $OPERATOR_RELEASE_NAME $OPERATOR_CHART_PATH -n $OPERATOR_RELEASE_NAMESPACE  -f $OPERATOR_VALUES_FILE_PATH
     else
-        echo "helm vault secret operator nothing be changed."
+        echo "[Helm] Vault Secret Operator nothing be changed."
     fi
   else
-    echo "vault secret operator installing..."
+    echo "[Helm] Vault Secret Operator installing..."
     helm install $OPERATOR_RELEASE_NAME $OPERATOR_CHART_PATH -n $OPERATOR_RELEASE_NAMESPACE --create-namespace -f $OPERATOR_VALUES_FILE_PATH
   fi
 
