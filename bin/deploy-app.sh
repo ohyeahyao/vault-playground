@@ -1,16 +1,17 @@
+#!/bin/bash
 
 execute_and_echo() {
-    local command="$1"
-    echo -e "\$ ${command}\n"
-    eval ${command}
+  local command="$1"
+  echo -e "\$ ${command}\n"
+  eval ${command}
 }
 
-init_context(){
+init_context() {
   read -p "1) Input Your vault Client K8S context(default current-context): " client_context
   if [ -z "$client_context" ]; then
-      VAULT_CLIENT_K8S_CONTEXT=$(kubectl config current-context)
+    VAULT_CLIENT_K8S_CONTEXT=$(kubectl config current-context)
   else
-      VAULT_CLIENT_K8S_CONTEXT=$client_context
+    VAULT_CLIENT_K8S_CONTEXT=$client_context
   fi
 
   echo -e "vault Client context: $VAULT_CLIENT_K8S_CONTEXT"
@@ -18,9 +19,12 @@ init_context(){
   while true; do
     read -p "Is the above information correct? (yes/no) " yn
     case $yn in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Operation cancelled."; exit;;
-        * ) echo "Please enter yes or no.";;
+    [Yy]*) break ;;
+    [Nn]*)
+      echo "Operation cancelled."
+      exit
+      ;;
+    *) echo "Please enter yes or no." ;;
     esac
   done
 
