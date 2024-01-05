@@ -25,5 +25,17 @@ This project utilizes several namespaces within the Kubernetes Cluster:
 To install and set up the Vault infrastructure, along with the Auth configuration and SOPS integration, use the following command:
 
 ```bash
-$ bash ./bin/apply.sh
+$ bash ./bin/deploy-vault-server.sh
+```
+
+## Deploy Vault Client
+
+```bash
+$ bash ./bin/deploy-vault-client.sh
+```
+
+## Deploy Web Application by Helm
+
+```bash
+$ bash ./bin/deploy-app.sh
 ```
