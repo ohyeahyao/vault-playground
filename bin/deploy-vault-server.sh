@@ -60,8 +60,12 @@ update_vault_configuration(){
 
   ## fetch vault client's k8s context
   execute_and_echo "kubectl config use-context ${VAULT_CLIENT_K8S_CONTEXT}"
-  # VAR_K8S_HOST="https://192.168.194.129"
-  VAR_K8S_HOST=$(kubectl cluster-info | grep 'Kubernetes control plane' | awk '/http/ {print $NF}' | sed 's/\x1b\[[0-9;]*m//g')
+  
+  if [ "$VAULT_CLIENT_K8S_CONTEXT" == "$VAULT_SERVER_K8S_CONTEXT" ]; then
+    VAR_K8S_HOST=https://kubernetes.default.svc.cluster.local
+  else
+    VAR_K8S_HOST=$(kubectl cluster-info | grep 'Kubernetes control plane' | awk '/http/ {print $NF}' | sed 's/\x1b\[[0-9;]*m//g')
+  fi
   
   echo -e "Vault Client K8S control plane Host: $VAR_K8S_HOST \n"
   
