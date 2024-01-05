@@ -17,3 +17,8 @@ terraform {
     }
   }
 }
+
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = var.vault_client_k8s_context
+}
