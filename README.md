@@ -10,6 +10,9 @@ Below is the detailed documentation on the namespaces used, the setup instructio
 - **SOPS**: Simple and flexible tool for managing secrets.
 - **Kubernetes**: An open-source system for automating deployment, scaling, and management of containerized applications.
 
+## Architecture
+![vault architecture](https://github.com/ohyeahyao/vault-startup/assets/29635695/05be2380-2581-4463-a7ae-264f9bdc8e1c)
+
 
 ## Kubernetes Cluster Namespaces
 
