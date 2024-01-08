@@ -1,4 +1,4 @@
-# Vault Startup Project(Single k8s cluster)
+# Vault Startup Project
 
 This project is focused on setting up and managing a Vault infrastructure within a Kubernetes Cluster. 
 Below is the detailed documentation on the namespaces used, the setup instructions, and the tools involved in this project.
