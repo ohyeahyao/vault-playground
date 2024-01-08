@@ -14,7 +14,7 @@ defaultAuthMethod:
 
     # Kubernetes ServiceAccount associated with the default Vault Auth Role
     # @type: string
-    serviceAccount: default
+    serviceAccount: vault-auth-service-account
 
     # Token Audience should match the audience of the vault kubernetes auth role.
     # @type: array<string>

@@ -1,10 +1,8 @@
-locals {
-  service_account_namespace = "default"
-}
+
 
 resource "kubernetes_service_account" "vault-auth" {
   metadata {
-    namespace = local.service_account_namespace
+    namespace = kubernetes_namespace.app-namespace.metadata[0].name
     name      = "vault-auth-service-account"
     annotations = {
       "created-by" = "terraform"
@@ -15,7 +13,7 @@ resource "kubernetes_service_account" "vault-auth" {
 resource "kubernetes_secret" "vault-auth-secret" {
   metadata {
     name      = "${kubernetes_service_account.vault-auth.metadata[0].name}-secret"
-    namespace = local.service_account_namespace
+    namespace = kubernetes_namespace.app-namespace.metadata[0].name
     annotations = {
       "kubernetes.io/service-account.name" = kubernetes_service_account.vault-auth.metadata[0].name
       "created-by"                         = "terraform"
@@ -41,6 +39,6 @@ resource "kubernetes_cluster_role_binding" "role-tokenreview-binding" {
   subject {
     kind      = "ServiceAccount"
     name      = kubernetes_service_account.vault-auth.metadata[0].name
-    namespace = local.service_account_namespace
+    namespace = kubernetes_namespace.app-namespace.metadata[0].name
   }
 }
